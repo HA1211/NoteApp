@@ -1,18 +1,58 @@
 package com.nqh.noteapp
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.ContactsContract.CommonDataKinds.Note
 import android.util.Log
+import com.nqh.noteapp.adapter.NoteAdapter
+import com.nqh.noteapp.adapter.OnClickNote
+import com.nqh.noteapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), OnClickNote {
+
+    private lateinit var binding: ActivityMainBinding
+
+    private val adapter by lazy {
+        NoteAdapter(this@MainActivity, ArrayList(), this)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
+        binding.rcyNote.adapter = adapter
+
+        getData()
+
+    }
+
+    /*private fun add(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = AppDatabase.getInstance(this@MainActivity).appDao.addNote(
+                NoteEntity(0, "afb","ajkfbs", "aksjd")
+            )
+        }
+    }*/
+
+    private fun getData(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
+            adapter.setData(data as ArrayList<NoteEntity>)
+
+        }
+    }
+
+    override fun clickNote(position: Int, noteEntity: NoteEntity) {
+
+    }
+}
+
+/*CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
             AppDatabase.getInstance(this@MainActivity).appDao.addNote(
                 NoteEntity(0, "Đi chơi", "Mua cá, mua thịt, mua rau", "16/12/2023")
             )
@@ -48,7 +88,4 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             AppDatabase.getInstance(this@MainActivity).appDao.deleteNoteBy(10)
-        }
-
-    }
-}
+        }*/

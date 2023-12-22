@@ -1,10 +1,21 @@
 package com.nqh.noteapp
 
 import android.app.Activity
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.ContactsContract.CommonDataKinds.Note
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.PopupMenu
+import android.widget.TextView
+import android.widget.Toast
 import com.nqh.noteapp.adapter.NoteAdapter
 import com.nqh.noteapp.adapter.OnClickNote
 import com.nqh.noteapp.databinding.ActivityMainBinding
@@ -29,6 +40,12 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         getData()
 
+        binding.imgNew.setOnClickListener {
+            showDialogAdd()
+        }
+
+
+
     }
 
     /*private fun add(){
@@ -39,17 +56,117 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         }
     }*/
 
+    private fun showDialogAdd(){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_add_note)
+        dialog.setCancelable(false)
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val edtTitle = dialog.findViewById<EditText>(R.id.edtTitle)
+        val edtContent = dialog.findViewById<EditText>(R.id.edtContent)
+
+
+        dialog.findViewById<TextView>(R.id.add).setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
+                AppDatabase.getInstance(this@MainActivity).appDao.addNote(
+                    NoteEntity(0, edtTitle.text.toString(), edtContent.text.toString(), DateUtils.getDate())
+                )
+                Handler(Looper.getMainLooper()).post{
+                    dialog.dismiss()
+                    getData()
+                }
+            }
+        }
+        dialog.findViewById<TextView>(R.id.cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
     private fun getData(){
         CoroutineScope(Dispatchers.IO).launch {
             val data = AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
-            adapter.setData(data as ArrayList<NoteEntity>)
+            runOnUiThread{
+                adapter.setData(data as ArrayList<NoteEntity>)
+            }
+
 
         }
     }
 
-    override fun clickNote(position: Int, noteEntity: NoteEntity) {
+    override fun clickNote(view :View,position: Int, noteEntity: NoteEntity) {
+        val popupMenu: PopupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            when(item.itemId) {
+                R.id.edit ->{
+                    showDialogEdit(noteEntity)
+                }
 
+                R.id.delete -> {
+                    //hiển thị xác nhận xóa
+                    CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
+                        AppDatabase.getInstance(this@MainActivity).appDao.deleteNote(noteEntity)
+                        getData()
+                    }
+                }
+            }
+            true
+        })
+        popupMenu.show()
     }
+
+
+    private fun showDialogEdit(noteEntity: NoteEntity){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_add_note)
+        dialog.setCancelable(false)
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+
+        val edtTitle = dialog.findViewById<EditText>(R.id.edtTitle)
+        val edtContent = dialog.findViewById<EditText>(R.id.edtContent)
+        val add = dialog.findViewById<TextView>(R.id.add)
+        val cancel = dialog.findViewById<TextView>(R.id.cancel)
+
+        add.setText("Sửa")
+        cancel.setText("Hủy")
+
+        edtTitle.setText(noteEntity.title)
+        edtContent.setText(noteEntity.content)
+
+        dialog.findViewById<TextView>(R.id.add).setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
+                AppDatabase.getInstance(this@MainActivity).appDao.addNote(
+                    NoteEntity(noteEntity.id, edtTitle.text.toString(), edtContent.text.toString(), DateUtils.getDate())
+                )
+                Handler(Looper.getMainLooper()).post{
+                    dialog.dismiss()
+                    getData()
+                }
+            }
+        }
+        dialog.findViewById<TextView>(R.id.cancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
 }
 
 /*CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng

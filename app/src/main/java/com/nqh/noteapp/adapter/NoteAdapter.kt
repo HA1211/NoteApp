@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nqh.noteapp.NoteEntity
@@ -17,6 +18,7 @@ class NoteAdapter(
     val listener: OnClickNote
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(){
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+        val viewAll : LinearLayout = view.findViewById(R.id.viewAll)
         val txtTitle : TextView = view.findViewById(R.id.txtTitle)
         val txtContent : TextView = view.findViewById(R.id.txtContent)
         val txtDate : TextView = view.findViewById(R.id.txtDate)
@@ -34,19 +36,25 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listData[position]
 
+
+        //hỏi
+        holder.viewAll.setOnClickListener{
+            listener.clickNote(holder.viewAll, position, item)
+        }
+
         holder.txtTitle.text = item.title
         holder.txtContent.text = item.content
         holder.txtDate.text = item.date
+
     }
 
     fun setData(listData: ArrayList<NoteEntity>){
         this.listData.clear()
         this.listData.addAll(listData)
         notifyDataSetChanged()
-        Log.e("hiep", "done")
     }
 }
 
 interface OnClickNote {
-    fun clickNote(position: Int, noteEntity: NoteEntity)
+    fun clickNote(view:View,position: Int, noteEntity: NoteEntity)
 }

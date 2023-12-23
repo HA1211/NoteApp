@@ -48,14 +48,6 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
     }
 
-    /*private fun add(){
-        CoroutineScope(Dispatchers.IO).launch {
-            val data = AppDatabase.getInstance(this@MainActivity).appDao.addNote(
-                NoteEntity(0, "afb","ajkfbs", "aksjd")
-            )
-        }
-    }*/
-
     private fun showDialogAdd(){
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_add_note)
@@ -96,8 +88,6 @@ class MainActivity : AppCompatActivity(), OnClickNote {
             runOnUiThread{
                 adapter.setData(data as ArrayList<NoteEntity>)
             }
-
-
         }
     }
 
@@ -112,10 +102,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
                 R.id.delete -> {
                     //hiển thị xác nhận xóa
-                    CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
-                        AppDatabase.getInstance(this@MainActivity).appDao.deleteNote(noteEntity)
-                        getData()
-                    }
+                    showDialogConfirm(noteEntity)
                 }
             }
             true
@@ -166,8 +153,45 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.show()
     }
 
+    private fun showDialogConfirm(noteEntity: NoteEntity){
+        val dialog = Dialog(this)
+        dialog.setContentView(R.layout.dialog_confirm)
+        dialog.setCancelable(false)
 
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+
+        val tvCancel = dialog.findViewById<TextView>(R.id.tvCancel)
+        val tvConfirm = dialog.findViewById<TextView>(R.id.tvConfirm)
+
+        dialog.findViewById<TextView>(R.id.tvConfirm).setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
+                AppDatabase.getInstance(this@MainActivity).appDao.deleteNote(noteEntity)
+                Handler(Looper.getMainLooper()).post{
+                    dialog.dismiss()
+                    getData()
+                }
+            }
+        }
+        dialog.findViewById<TextView>(R.id.tvCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
 }
+
+/*private fun add(){
+        CoroutineScope(Dispatchers.IO).launch {
+            val data = AppDatabase.getInstance(this@MainActivity).appDao.addNote(
+                NoteEntity(0, "afb","ajkfbs", "aksjd")
+            )
+        }
+    }*/
 
 /*CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
             AppDatabase.getInstance(this@MainActivity).appDao.addNote(

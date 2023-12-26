@@ -7,39 +7,40 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="Ghi chú mới"
-        android:textSize="20sp"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="Ghi chú mới"
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/edtTitle"
-        android:hint="Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"/>
+        android:layout_margin="15dp"
+        android:hint="Title" />
 
     <EditText
         android:id="@+id/edtContent"
-        android:hint="Content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"/>
+        android:layout_margin="15dp"
+        android:hint="Content" />
 
     <TextView
         android:id="@+id/add"
-        android:text="Thêm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="Thêm" />
+
     <TextView
         android:id="@+id/cancel"
-        android:text="Bỏ"
-        android:layout_marginVertical="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"/>
+        android:layout_marginVertical="15dp"
+        android:gravity="center"
+        android:text="Bỏ" />
 
 </LinearLayout>

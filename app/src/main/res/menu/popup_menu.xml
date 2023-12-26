@@ -2,10 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/edit"
-        android:title="Sửa"
-        android:icon="@drawable/ic_edit_24"/>
+        android:icon="@drawable/ic_edit_24"
+        android:title="Sửa" />
     <item
         android:id="@+id/delete"
-        android:title="Xóa"
-        android:icon="@drawable/ic_delete_24"/>
+        android:icon="@drawable/ic_delete_24"
+        android:title="Xóa" />
 </menu>

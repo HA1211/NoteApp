@@ -13,18 +13,18 @@ import androidx.room.RoomDatabase
     ]
 )
 
-abstract class AppDatabase :RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
-    abstract val appDao : DaoInterface
+    abstract val appDao: DaoInterface
 
     //khởi tạo nó trong chính nó
     companion object {
 
-        private var INSTANCE : AppDatabase? = null
+        private var INSTANCE: AppDatabase? = null
 
-        fun getInstance(context: Context) : AppDatabase {
+        fun getInstance(context: Context): AppDatabase {
 
-            return INSTANCE?: synchronized(this) {
+            return INSTANCE ?: synchronized(this) {
                 val intan = Room.databaseBuilder(
                     context, AppDatabase::class.java, "room_note_1"
                 ).fallbackToDestructiveMigration().build()

@@ -45,10 +45,9 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         }
 
 
-
     }
 
-    private fun showDialogAdd(){
+    private fun showDialogAdd() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_add_note)
         dialog.setCancelable(false)
@@ -67,9 +66,14 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.findViewById<TextView>(R.id.add).setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
                 AppDatabase.getInstance(this@MainActivity).appDao.addNote(
-                    NoteEntity(0, edtTitle.text.toString(), edtContent.text.toString(), DateUtils.getDate())
+                    NoteEntity(
+                        0,
+                        edtTitle.text.toString(),
+                        edtContent.text.toString(),
+                        DateUtils.getDate()
+                    )
                 )
-                Handler(Looper.getMainLooper()).post{
+                Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
                     getData()
                 }
@@ -82,21 +86,21 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.show()
     }
 
-    private fun getData(){
+    private fun getData() {
         CoroutineScope(Dispatchers.IO).launch {
             val data = AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
-            runOnUiThread{
+            runOnUiThread {
                 adapter.setData(data as ArrayList<NoteEntity>)
             }
         }
     }
 
-    override fun clickNote(view :View,position: Int, noteEntity: NoteEntity) {
+    override fun clickNote(view: View, position: Int, noteEntity: NoteEntity) {
         val popupMenu: PopupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_menu,popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            when(item.itemId) {
-                R.id.edit ->{
+            when (item.itemId) {
+                R.id.edit -> {
                     showDialogEdit(noteEntity)
                 }
 
@@ -111,7 +115,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
     }
 
 
-    private fun showDialogEdit(noteEntity: NoteEntity){
+    private fun showDialogEdit(noteEntity: NoteEntity) {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_add_note)
         dialog.setCancelable(false)
@@ -138,9 +142,14 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.findViewById<TextView>(R.id.add).setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
                 AppDatabase.getInstance(this@MainActivity).appDao.addNote(
-                    NoteEntity(noteEntity.id, edtTitle.text.toString(), edtContent.text.toString(), DateUtils.getDate())
+                    NoteEntity(
+                        noteEntity.id,
+                        edtTitle.text.toString(),
+                        edtContent.text.toString(),
+                        DateUtils.getDate()
+                    )
                 )
-                Handler(Looper.getMainLooper()).post{
+                Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
                     getData()
                 }
@@ -153,7 +162,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.show()
     }
 
-    private fun showDialogConfirm(noteEntity: NoteEntity){
+    private fun showDialogConfirm(noteEntity: NoteEntity) {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_confirm)
         dialog.setCancelable(false)
@@ -171,7 +180,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.findViewById<TextView>(R.id.tvConfirm).setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
                 AppDatabase.getInstance(this@MainActivity).appDao.deleteNote(noteEntity)
-                Handler(Looper.getMainLooper()).post{
+                Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
                     getData()
                 }

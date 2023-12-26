@@ -16,12 +16,12 @@ class NoteAdapter(
     val context: Context,
     val listData: ArrayList<NoteEntity>,
     val listener: OnClickNote
-) : RecyclerView.Adapter<NoteAdapter.ViewHolder>(){
-    class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val viewAll : LinearLayout = view.findViewById(R.id.viewAll)
-        val txtTitle : TextView = view.findViewById(R.id.txtTitle)
-        val txtContent : TextView = view.findViewById(R.id.txtContent)
-        val txtDate : TextView = view.findViewById(R.id.txtDate)
+) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val viewAll: LinearLayout = view.findViewById(R.id.viewAll)
+        val txtTitle: TextView = view.findViewById(R.id.txtTitle)
+        val txtContent: TextView = view.findViewById(R.id.txtContent)
+        val txtDate: TextView = view.findViewById(R.id.txtDate)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,7 +38,7 @@ class NoteAdapter(
 
 
         //hỏi
-        holder.viewAll.setOnClickListener{
+        holder.viewAll.setOnClickListener {
             listener.clickNote(holder.viewAll, position, item)
         }
 
@@ -48,7 +48,7 @@ class NoteAdapter(
 
     }
 
-    fun setData(listData: ArrayList<NoteEntity>){
+    fun setData(listData: ArrayList<NoteEntity>) {
         this.listData.clear()
         this.listData.addAll(listData)
         notifyDataSetChanged()
@@ -56,5 +56,5 @@ class NoteAdapter(
 }
 
 interface OnClickNote {
-    fun clickNote(view:View,position: Int, noteEntity: NoteEntity)
+    fun clickNote(view: View, position: Int, noteEntity: NoteEntity)
 }

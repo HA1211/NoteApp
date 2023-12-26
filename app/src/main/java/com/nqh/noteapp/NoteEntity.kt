@@ -12,15 +12,15 @@ data class NoteEntity(
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id : Int,
+    val id: Int,
 
     @ColumnInfo(name = "title")
-    val title : String,
+    val title: String,
 
     @ColumnInfo(name = "content")
-    val content : String,
+    val content: String,
 
     @ColumnInfo(name = "date")
-    val date : String
+    val date: String
 
 ) : Parcelable

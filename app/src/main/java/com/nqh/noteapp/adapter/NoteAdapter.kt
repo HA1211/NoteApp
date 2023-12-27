@@ -24,8 +24,10 @@ class NoteAdapter(
         val txtDate: TextView = view.findViewById(R.id.txtDate)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {/*
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)*/
+        //khai báo context ở trên rồi thì không cần parent.context nữa
+        val view = LayoutInflater.from(context).inflate(R.layout.item_note, parent, false)
         return ViewHolder(view)
     }
 
@@ -48,10 +50,12 @@ class NoteAdapter(
 
     }
 
+
+    //hàm cập nhật dữ liệu
     fun setData(listData: ArrayList<NoteEntity>) {
         this.listData.clear()
         this.listData.addAll(listData)
-        notifyDataSetChanged()
+        notifyDataSetChanged() //thông báo cho adapter dữ liệu đã thay đổi
     }
 }
 

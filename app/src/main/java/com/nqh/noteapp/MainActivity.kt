@@ -192,6 +192,9 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         dialog.show()
     }
+
+    
+
 }
 
 /*private fun add(){

@@ -40,8 +40,9 @@ class NoteAdapter(
 
 
         //hỏi
-        holder.viewAll.setOnClickListener {
+        holder.viewAll.setOnLongClickListener {
             listener.clickNote(holder.viewAll, position, item)
+            true
         }
 
         holder.txtTitle.text = item.title

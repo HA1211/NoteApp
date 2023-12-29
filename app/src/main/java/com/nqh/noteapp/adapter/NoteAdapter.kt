@@ -50,7 +50,8 @@ class NoteAdapter(
         holder.txtContent.text = item.content
         holder.txtDate.text = item.date
 
-        holder.
+        //random màu cho note
+        holder.viewAll.setBackgroundColor(holder.viewAll.resources.getColor(randomColor(), null))
 
     }
 

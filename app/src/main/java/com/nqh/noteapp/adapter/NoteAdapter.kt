@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.nqh.noteapp.NoteEntity
 import com.nqh.noteapp.R
 import java.text.FieldPosition
+import kotlin.random.Random
 
 class NoteAdapter(
     val context: Context,
@@ -49,6 +50,8 @@ class NoteAdapter(
         holder.txtContent.text = item.content
         holder.txtDate.text = item.date
 
+        holder.
+
     }
 
 
@@ -58,6 +61,23 @@ class NoteAdapter(
         this.listData.addAll(listData)
         notifyDataSetChanged() //thông báo cho adapter dữ liệu đã thay đổi
     }
+
+    fun randomColor() : Int{
+        val list = ArrayList<Int>()
+        list.add(R.color.NoteColor1)
+        list.add(R.color.NoteColor2)
+        list.add(R.color.NoteColor3)
+        list.add(R.color.NoteColor4)
+        list.add(R.color.NoteColor5)
+        list.add(R.color.NoteColor6)
+
+        val seed = System.currentTimeMillis().toInt()
+        val randomIndex = Random(seed).nextInt(list.size)
+
+        return list[randomIndex]
+
+    }
+
 }
 
 interface OnClickNote {

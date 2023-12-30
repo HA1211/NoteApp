@@ -19,13 +19,15 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="25dp"
+            android:textStyle="bold"
             android:text="My Notes"
             android:textSize="25sp" />
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.SearchView
+    <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    </androidx.appcompat.widget.SearchView>
+    </SearchView>
 
 
     <androidx.core.widget.NestedScrollView
@@ -48,7 +50,7 @@
             android:id="@+id/rcyNote"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
             app:spanCount="2"
             tools:listitem="@layout/item_note"/>
     </androidx.core.widget.NestedScrollView>

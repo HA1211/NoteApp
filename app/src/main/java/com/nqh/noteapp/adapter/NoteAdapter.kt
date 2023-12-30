@@ -1,6 +1,7 @@
 package com.nqh.noteapp.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -46,12 +47,15 @@ class NoteAdapter(
             true
         }
 
+
         holder.txtTitle.text = item.title
         holder.txtContent.text = item.content
         holder.txtDate.text = item.date
 
         //random màu cho note
         holder.viewAll.setBackgroundColor(holder.viewAll.resources.getColor(randomColor(), null))
+
+
 
     }
 
@@ -76,8 +80,10 @@ class NoteAdapter(
         val randomIndex = Random(seed).nextInt(list.size)
 
         return list[randomIndex]
-
     }
+
+
+
 
 }
 

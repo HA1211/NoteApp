@@ -14,8 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContract
 import com.nqh.noteapp.adapter.NoteAdapter
 import com.nqh.noteapp.adapter.OnClickNote
 import com.nqh.noteapp.databinding.ActivityMainBinding
@@ -26,6 +28,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), OnClickNote {
 
     private lateinit var binding: ActivityMainBinding
+    var data : ArrayList<NoteEntity> ?= null
 
     private val adapter by lazy {
         NoteAdapter(this@MainActivity, ArrayList(), this)
@@ -44,6 +47,24 @@ class MainActivity : AppCompatActivity(), OnClickNote {
             showDialogAdd()
         }
 
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    if(it.trim().isNotEmpty()){
+                        filterList(newText)
+                    }
+                    else{
+                        data?.let { it1 -> adapter.setData(it1) }
+                    }
+                }
+                return true
+            }
+
+        })
 
     }
 
@@ -88,11 +109,26 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
     private fun getData() {
         CoroutineScope(Dispatchers.IO).launch {
-            val data = AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
+            AppDatabase.getInstance(this@MainActivity).appDao.getAllNote().also { data = it as ArrayList }
             runOnUiThread {
                 adapter.setData(data as ArrayList<NoteEntity>)
             }
         }
+    }
+
+    //lọc
+    fun filterList(search : String){
+
+        var newList  =ArrayList<NoteEntity>()
+
+        data?.let {list ->
+            for(item in list){
+                if(item.title.lowercase().contains(search.lowercase()) || item.content.lowercase().contains(search.lowercase())){
+                    newList.add(item)
+                }
+            }
+        }
+        adapter.setData(newList)
     }
 
     override fun clickNote(view: View, position: Int, noteEntity: NoteEntity) {
@@ -113,7 +149,6 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         })
         popupMenu.show()
     }
-
 
     private fun showDialogEdit(noteEntity: NoteEntity) {
         val dialog = Dialog(this)
@@ -192,9 +227,6 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         dialog.show()
     }
-
-    
-
 }
 
 /*private fun add(){

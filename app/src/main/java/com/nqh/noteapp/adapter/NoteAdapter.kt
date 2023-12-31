@@ -15,9 +15,9 @@ import java.text.FieldPosition
 import kotlin.random.Random
 
 class NoteAdapter(
-    val context: Context,
-    val listData: ArrayList<NoteEntity>,
-    val listener: OnClickNote
+    private val context: Context,
+    private val listData: ArrayList<NoteEntity>,
+    private val listener: OnClickNote
 ) : RecyclerView.Adapter<NoteAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val viewAll: LinearLayout = view.findViewById(R.id.viewAll)
@@ -55,8 +55,6 @@ class NoteAdapter(
         //random màu cho note
         holder.viewAll.setBackgroundColor(holder.viewAll.resources.getColor(randomColor(), null))
 
-
-
     }
 
 
@@ -81,10 +79,6 @@ class NoteAdapter(
 
         return list[randomIndex]
     }
-
-
-
-
 }
 
 interface OnClickNote {

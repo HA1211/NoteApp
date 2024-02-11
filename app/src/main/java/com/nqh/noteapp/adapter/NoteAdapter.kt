@@ -53,8 +53,7 @@ class NoteAdapter(
         holder.txtDate.text = item.date
 
         //random màu cho note
-        holder.viewAll.setBackgroundColor(holder.viewAll.resources.getColor(randomColor(), null))
-
+        /*holder.viewAll.setBackgroundColor(holder.viewAll.resources.getColor(randomColor(), null))*/
     }
 
 
@@ -65,7 +64,7 @@ class NoteAdapter(
         notifyDataSetChanged() //thông báo cho adapter dữ liệu đã thay đổi
     }
 
-    fun randomColor() : Int{
+    /*fun randomColor() : Int{
         val list = ArrayList<Int>()
         list.add(R.color.NoteColor1)
         list.add(R.color.NoteColor2)
@@ -78,7 +77,7 @@ class NoteAdapter(
         val randomIndex = Random(seed).nextInt(list.size)
 
         return list[randomIndex]
-    }
+    }*/
 }
 
 interface OnClickNote {

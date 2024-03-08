@@ -1,6 +1,5 @@
 package com.nqh.noteapp
 
-import android.app.Activity
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert

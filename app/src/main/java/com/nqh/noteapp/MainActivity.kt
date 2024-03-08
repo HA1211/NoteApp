@@ -1,23 +1,18 @@
 package com.nqh.noteapp
 
-import android.app.Activity
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.ContactsContract.CommonDataKinds.Note
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.SearchView
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContract
+import androidx.appcompat.app.AppCompatActivity
 import com.nqh.noteapp.adapter.NoteAdapter
 import com.nqh.noteapp.adapter.OnClickNote
 import com.nqh.noteapp.databinding.ActivityMainBinding
@@ -28,7 +23,7 @@ import kotlinx.coroutines.launch
 class MainActivity : AppCompatActivity(), OnClickNote {
 
     private lateinit var binding: ActivityMainBinding
-    var data : ArrayList<NoteEntity> ?= null
+    var data: ArrayList<NoteEntity>? = null
 
     private val adapter by lazy {
         NoteAdapter(this@MainActivity, ArrayList(), this)
@@ -47,17 +42,16 @@ class MainActivity : AppCompatActivity(), OnClickNote {
             showDialogAdd()
         }
 
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
-                    if(it.trim().isNotEmpty()){
+                    if (it.trim().isNotEmpty()) {
                         filterList(newText)
-                    }
-                    else{
+                    } else {
                         data?.let { it1 -> adapter.setData(it1) }
                     }
                 }
@@ -84,7 +78,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         val edtContent = dialog.findViewById<EditText>(R.id.edtContent)
 
 
-        dialog.findViewById<TextView>(R.id.add).setOnClickListener {
+        dialog.findViewById<TextView>(R.id.btn_add).setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
                 AppDatabase.getInstance(this@MainActivity).appDao.addNote(
                     NoteEntity(
@@ -100,7 +94,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 }
             }
         }
-        dialog.findViewById<TextView>(R.id.cancel).setOnClickListener {
+        dialog.findViewById<TextView>(R.id.btn_cancel).setOnClickListener {
             dialog.dismiss()
         }
 
@@ -109,7 +103,8 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
     private fun getData() {
         CoroutineScope(Dispatchers.IO).launch {
-            AppDatabase.getInstance(this@MainActivity).appDao.getAllNote().also { data = it as ArrayList }
+            AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
+                .also { data = it as ArrayList }
             runOnUiThread {
                 adapter.setData(data as ArrayList<NoteEntity>)
             }
@@ -117,13 +112,15 @@ class MainActivity : AppCompatActivity(), OnClickNote {
     }
 
     //lọc
-    fun filterList(search : String){
+    fun filterList(search: String) {
 
-        var newList  =ArrayList<NoteEntity>()
+        var newList = ArrayList<NoteEntity>()
 
-        data?.let {list ->
-            for(item in list){
-                if(item.title.lowercase().contains(search.lowercase()) || item.content.lowercase().contains(search.lowercase())){
+        data?.let { list ->
+            for (item in list) {
+                if (item.title.lowercase().contains(search.lowercase()) || item.content.lowercase()
+                        .contains(search.lowercase())
+                ) {
                     newList.add(item)
                 }
             }
@@ -165,16 +162,16 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         val edtTitle = dialog.findViewById<EditText>(R.id.edtTitle)
         val edtContent = dialog.findViewById<EditText>(R.id.edtContent)
-        val add = dialog.findViewById<TextView>(R.id.add)
-        val cancel = dialog.findViewById<TextView>(R.id.cancel)
+        val add = dialog.findViewById<TextView>(R.id.btn_add)
+        val cancel = dialog.findViewById<TextView>(R.id.btn_cancel)
 
-        add.setText("Sửa")
-        cancel.setText("Hủy")
+        add.text = "Sửa"
+        cancel.text = "Hủy"
 
         edtTitle.setText(noteEntity.title)
         edtContent.setText(noteEntity.content)
 
-        dialog.findViewById<TextView>(R.id.add).setOnClickListener {
+        dialog.findViewById<TextView>(R.id.btn_add).setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
                 AppDatabase.getInstance(this@MainActivity).appDao.addNote(
                     NoteEntity(
@@ -190,7 +187,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 }
             }
         }
-        dialog.findViewById<TextView>(R.id.cancel).setOnClickListener {
+        dialog.findViewById<TextView>(R.id.btn_cancel).setOnClickListener {
             dialog.dismiss()
         }
 
@@ -260,7 +257,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         }
 
 
-        //get thằng Đi học xong nếu có thì xóa luôn
+        //get "Đi học" xong nếu có thì xóa luôn
         CoroutineScope(Dispatchers.IO).launch {
             val data = AppDatabase.getInstance(this@MainActivity).appDao.getNoteByName("Đi học")
             data.forEach {

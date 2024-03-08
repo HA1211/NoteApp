@@ -29,8 +29,7 @@ class NoteAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {/*
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_note, parent, false)*/
         //khai báo context ở trên rồi thì không cần parent.context nữa
-        val view = LayoutInflater.from(context).inflate(R.layout.item_note, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(LayoutInflater.from(context).inflate(R.layout.item_note, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -40,13 +39,11 @@ class NoteAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listData[position]
 
-
         //hỏi
         holder.viewAll.setOnLongClickListener {
             listener.clickNote(holder.viewAll, position, item)
             true
         }
-
 
         holder.txtTitle.text = item.title
         holder.txtContent.text = item.content

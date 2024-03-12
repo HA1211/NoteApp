@@ -1,8 +1,6 @@
-package com.nqh.noteapp.adapter
+package com.nqh.noteapp.database
 
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,8 +9,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.nqh.noteapp.NoteEntity
 import com.nqh.noteapp.R
-import java.text.FieldPosition
-import kotlin.random.Random
 
 class NoteAdapter(
     private val context: Context,

@@ -10,7 +10,7 @@ import androidx.room.Query
 @Dao
 interface DaoInterface {
     @Insert(onConflict = OnConflictStrategy.REPLACE) //conFlick : xung đột thì replace
-    fun addNote(noteEntity: NoteEntity): Long //hàm add luôn trả ra Long
+    fun addNote(noteEntity: NoteEntity): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun addListNote(noteEntity: ArrayList<NoteEntity>): MutableList<Long>
@@ -24,7 +24,7 @@ interface DaoInterface {
     @Delete
     fun deleteNote(noteEntity: NoteEntity): Int
 
-    //xóa theo id thì dùng QUERY
+    //xóa theo id
     @Query("DELETE from note where id = :id")
     fun deleteNoteBy(id: Int): Int
 

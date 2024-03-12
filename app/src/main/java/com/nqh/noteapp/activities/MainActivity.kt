@@ -1,4 +1,4 @@
-package com.nqh.noteapp
+package com.nqh.noteapp.activities
 
 import android.app.Dialog
 import android.graphics.Color
@@ -13,8 +13,12 @@ import android.widget.PopupMenu
 import android.widget.SearchView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.nqh.noteapp.adapter.NoteAdapter
-import com.nqh.noteapp.adapter.OnClickNote
+import com.nqh.noteapp.AppDatabase
+import com.nqh.noteapp.DateUtils
+import com.nqh.noteapp.NoteEntity
+import com.nqh.noteapp.R
+import com.nqh.noteapp.database.NoteAdapter
+import com.nqh.noteapp.database.OnClickNote
 import com.nqh.noteapp.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -206,10 +210,10 @@ class MainActivity : AppCompatActivity(), OnClickNote {
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
-        val tvCancel = dialog.findViewById<TextView>(R.id.tvCancel)
         val tvConfirm = dialog.findViewById<TextView>(R.id.tvConfirm)
+        val tvCancel = dialog.findViewById<TextView>(R.id.tvCancel)
 
-        dialog.findViewById<TextView>(R.id.tvConfirm).setOnClickListener {
+        tvConfirm.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
                 AppDatabase.getInstance(this@MainActivity).appDao.deleteNote(noteEntity)
                 Handler(Looper.getMainLooper()).post {
@@ -218,7 +222,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 }
             }
         }
-        dialog.findViewById<TextView>(R.id.tvCancel).setOnClickListener {
+        tvCancel.setOnClickListener {
             dialog.dismiss()
         }
 

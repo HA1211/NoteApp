@@ -1,5 +1,6 @@
 package com.nqh.noteapp
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -27,5 +28,8 @@ interface DaoInterface {
     //xóa theo id
     @Query("DELETE from note where id = :id")
     fun deleteNoteBy(id: Int): Int
+
+    @Query("SELECT * from note")
+    fun getAll(): LiveData<MutableList<NoteEntity>>
 
 }

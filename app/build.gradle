@@ -53,7 +53,7 @@ dependencies {
     implementation "androidx.room:room-runtime:2.2.5"
     kapt "androidx.room:room-compiler:2.2.5"
 
-    //livedata
+    //livedata (tự động lắng nghe)
     kapt 'androidx.lifecycle:lifecycle-compiler:2.3.1'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
 }

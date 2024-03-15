@@ -40,7 +40,12 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         binding.rcyNote.adapter = adapter
 
-        getData()
+//        getData()
+
+        AppDatabase.getInstance(this@MainActivity).appDao.getAll().observe(this@MainActivity){
+            adapter.setData(it as ArrayList<NoteEntity>)
+            binding.tvCount.text = adapter.itemCount.toString() + " ghi chú"
+        }
 
         binding.imgNew.setOnClickListener {
             showDialogAdd()
@@ -61,9 +66,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 }
                 return true
             }
-
         })
-
     }
 
     private fun showDialogAdd() {
@@ -94,7 +97,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 )
                 Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
-                    getData()
+//                    getData()
                 }
             }
         }
@@ -187,7 +190,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 )
                 Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
-                    getData()
+//                    getData()
                 }
             }
         }
@@ -218,7 +221,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 AppDatabase.getInstance(this@MainActivity).appDao.deleteNote(noteEntity)
                 Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
-                    getData()
+//                    getData()
                 }
             }
         }
@@ -228,6 +231,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         dialog.show()
     }
+
 }
 
 /*private fun add(){

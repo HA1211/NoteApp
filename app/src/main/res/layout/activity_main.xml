@@ -45,10 +45,28 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imgNew"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="bottom|end"
-        android:src="@drawable/ic_new" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="20 ghi chú"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/imgNew"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_new" />
+
+    </RelativeLayout>
+
+
 </LinearLayout>

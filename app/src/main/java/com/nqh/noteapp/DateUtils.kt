@@ -10,7 +10,7 @@ object DateUtils {
             calendar.get(Calendar.DATE),
             calendar.get(Calendar.MONTH) + 1,
             calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.HOUR),
+            calendar.get(Calendar.HOUR_OF_DAY),
             calendar.get(Calendar.MINUTE),
             calendar.get(Calendar.SECOND)
         )

@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
+import java.util.ArrayList
 
 @Parcelize
 @Entity(tableName = "note")
@@ -23,4 +24,5 @@ data class NoteEntity(
     @ColumnInfo(name = "date")
     val date: String
 
-) : Parcelable
+) : Parcelable {
+}

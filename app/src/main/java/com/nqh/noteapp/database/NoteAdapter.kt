@@ -52,6 +52,7 @@ class NoteAdapter(
 
     //hàm cập nhật dữ liệu
     fun setData(listData: ArrayList<NoteEntity>) {
+        listData.sortWith(compareByDescending { it.date })
         this.listData.clear()
         this.listData.addAll(listData)
         notifyDataSetChanged() //thông báo cho adapter dữ liệu đã thay đổi

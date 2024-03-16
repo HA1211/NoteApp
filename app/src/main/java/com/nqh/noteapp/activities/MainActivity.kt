@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
     private lateinit var binding: ActivityMainBinding
     var data: ArrayList<NoteEntity>? = null
 
+
     private val adapter by lazy {
         NoteAdapter(this@MainActivity, ArrayList(), this)
     }
@@ -68,6 +69,8 @@ class MainActivity : AppCompatActivity(), OnClickNote {
             }
         })
     }
+
+
 
     private fun showDialogAdd() {
         val dialog = Dialog(this)

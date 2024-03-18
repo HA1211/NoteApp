@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.DetailsActivity"
+    tools:context=".activities.DetailActivity"
     android:orientation="vertical">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:gravity="center"
-        android:text="@string/new_note_text"
+        android:text="@string/note_text"
         android:textStyle="bold"
         android:textSize="25sp" />
 
@@ -26,7 +26,7 @@
         android:layout_marginHorizontal="15dp"/>
 
     <EditText
-        android:id="@+id/edtTitleDetails"
+        android:id="@+id/edtTitleDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
@@ -42,35 +42,31 @@
         android:layout_marginHorizontal="15dp"/>
 
     <EditText
-        android:id="@+id/edtContentDetails"
+        android:id="@+id/edtContentDetail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
         android:hint="Content"
         android:maxHeight="200dp" />
 
-    <TextView
-        android:id="@+id/btn_add"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
+    <ImageView
+        android:id="@+id/btn_done"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:background="@drawable/bg_add"
-        android:textColor="@color/black"
         android:layout_marginTop="20dp"
-        android:text="@string/add_text"
+        android:src="@drawable/ic_done_24"
         android:textSize="17sp"/>
 
-    <TextView
-        android:id="@+id/btn_cancel"
-        android:layout_width="130dp"
-        android:layout_height="50dp"
+    <ImageView
+        android:id="@+id/btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center"
         android:gravity="center"
-        android:background="@drawable/bg_add"
-        android:textColor="@color/black"
         android:layout_margin="15dp"
-        android:text="@string/destroy_text"
+        android:src="@drawable/ic_back_24"
         android:textSize="17sp" />
 
 </LinearLayout>

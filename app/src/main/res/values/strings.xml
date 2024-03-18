@@ -2,4 +2,11 @@
     <string name="app_name">NoteApp</string>
     <string name="search">Search</string>
     <string name="my_notes_text">Ghi chú</string>
+    <string name="new_note_text">Ghi chú mới</string>
+    <string name="title_text">Tiêu đề</string>
+    <string name="content_text">Nội dung</string>
+    <string name="add_text">Thêm</string>
+    <string name="destroy_text">Hủy</string>
+    <string name="note_text">Ghi chú</string>
+    <string name="fix_text">Sửa</string>
 </resources>

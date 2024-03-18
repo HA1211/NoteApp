@@ -1,6 +1,7 @@
 package com.nqh.noteapp.activities
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -43,13 +44,14 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
 //        getData()
 
-        AppDatabase.getInstance(this@MainActivity).appDao.getAll().observe(this@MainActivity){
+        AppDatabase.getInstance(this@MainActivity).appDao.getAll().observe(this@MainActivity) {
             adapter.setData(it as ArrayList<NoteEntity>)
             binding.tvCount.text = adapter.itemCount.toString() + " ghi chú"
         }
 
         binding.imgNew.setOnClickListener {
-            showDialogAdd()
+            startActivity(Intent(this@MainActivity, DetailsActivity::class.java))
+//            showDialogAdd()
         }
 
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -70,9 +72,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         })
     }
 
-
-
-    private fun showDialogAdd() {
+    /*private fun showDialogAdd() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_add_note)
         dialog.setCancelable(false)
@@ -98,6 +98,8 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                         DateUtils.getDate()
                     )
                 )
+
+                //tắt 1 dialog
                 Handler(Looper.getMainLooper()).post {
                     dialog.dismiss()
 //                    getData()
@@ -109,9 +111,9 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         }
 
         dialog.show()
-    }
+    }*/
 
-    private fun getData() {
+    /*private fun getData() {
         CoroutineScope(Dispatchers.IO).launch {
             AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
                 .also { data = it as ArrayList }
@@ -119,7 +121,29 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 adapter.setData(data as ArrayList<NoteEntity>)
             }
         }
-    }
+    }*/
+
+    /*private fun showDetail(noteEntity: NoteEntity){
+
+        val edtTitle = findViewById<EditText>(R.id.edtTitle)
+        val edtContent = findViewById<EditText>(R.id.edtContent)
+        val viewNote = findViewById<LinearLayout>(R.id.viewAll)
+
+        viewNote.setOnClickListener {
+            startActivity(Intent(this@MainActivity, DetailsActivity::class.java))
+            CoroutineScope(Dispatchers.IO).launch{
+                AppDatabase.getInstance(this@MainActivity).appDao.addNote(
+                    NoteEntity(
+                        noteEntity.id,
+                        edtTitle.text.toString(),
+                        edtContent.text.toString(),
+                        DateUtils.getDate()
+                    )
+                )
+            }
+        }
+    }*/
+
 
     //lọc
     fun filterList(search: String) {
@@ -138,24 +162,6 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         adapter.setData(newList)
     }
 
-    override fun clickNote(view: View, position: Int, noteEntity: NoteEntity) {
-        val popupMenu: PopupMenu = PopupMenu(this, view)
-        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
-        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.edit -> {
-                    showDialogEdit(noteEntity)
-                }
-
-                R.id.delete -> {
-                    //hiển thị xác nhận xóa
-                    showDialogConfirm(noteEntity)
-                }
-            }
-            true
-        })
-        popupMenu.show()
-    }
 
     private fun showDialogEdit(noteEntity: NoteEntity) {
         val dialog = Dialog(this)
@@ -163,15 +169,14 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.setCancelable(false)
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
 
+        val edtTitle = findViewById<EditText>(R.id.edtTitle)
+        val edtContent = findViewById<EditText>(R.id.edtContent)
 
-        val edtTitle = dialog.findViewById<EditText>(R.id.edtTitle)
-        val edtContent = dialog.findViewById<EditText>(R.id.edtContent)
         val add = dialog.findViewById<TextView>(R.id.btn_add)
         val cancel = dialog.findViewById<TextView>(R.id.btn_cancel)
 
@@ -233,6 +238,52 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         }
 
         dialog.show()
+    }
+
+    override fun longClickNote(view: View, position: Int, noteEntity: NoteEntity) {
+        val popupMenu: PopupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+        popupMenu.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item ->
+            when (item.itemId) {
+                /*R.id.edit -> {
+                    showDialogEdit(noteEntity)
+                }*/
+
+                R.id.delete -> {
+                    //hiển thị xác nhận xóa
+                    showDialogConfirm(noteEntity)
+                }
+            }
+            true
+        })
+        popupMenu.show()
+    }
+
+    override fun onNoteClick(noteEntity: NoteEntity) {
+
+        /*val intent = Intent(this, DetailsActivity::class.java).apply {
+
+            val edtTitle = findViewById<EditText>(R.id.edtTitleDetail)
+            val edtContent = findViewById<EditText>(R.id.edtContentDetail)
+            edtTitle.setText(noteEntity.title)
+            edtContent.setText(noteEntity.content)
+
+            CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
+                AppDatabase.getInstance(this@MainActivity).appDao.addNote(
+                    NoteEntity(
+                        noteEntity.id,
+                        edtTitle.text.toString(),
+                        edtContent.text.toString(),
+                        DateUtils.getDate()
+                    )
+                )
+            }
+        }
+        startActivity(intent)*/
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra("note_data", noteEntity)
+        }
+        startActivity(intent)
     }
 
 }

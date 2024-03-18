@@ -37,8 +37,12 @@ class NoteAdapter(
 
         //hỏi
         holder.viewAll.setOnLongClickListener {
-            listener.clickNote(holder.viewAll, position, item)
+            listener.longClickNote(holder.viewAll, position, item)
             true
+        }
+
+        holder.viewAll.setOnClickListener {
+            listener.onNoteClick( item)
         }
 
         holder.txtTitle.text = item.title
@@ -75,5 +79,8 @@ class NoteAdapter(
 }
 
 interface OnClickNote {
-    fun clickNote(view: View, position: Int, noteEntity: NoteEntity)
+    fun longClickNote(view: View, position: Int, noteEntity: NoteEntity)
+
+    fun onNoteClick(noteEntity: NoteEntity)
 }
+

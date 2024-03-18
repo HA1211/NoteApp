@@ -31,5 +31,4 @@ interface DaoInterface {
 
     @Query("SELECT * from note")
     fun getAll(): LiveData<MutableList<NoteEntity>>
-
 }

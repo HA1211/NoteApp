@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
         binding.rcyNote.adapter = adapter
 
-//        getData()
+        getData()
 
         AppDatabase.getInstance(this@MainActivity).appDao.getAll().observe(this@MainActivity) {
             adapter.setData(it as ArrayList<NoteEntity>)
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         }
 
         binding.imgNew.setOnClickListener {
-            startActivity(Intent(this@MainActivity, DetailsActivity::class.java))
+            startActivity(Intent(this@MainActivity, NewNoteActivity::class.java))
 //            showDialogAdd()
         }
 
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
         dialog.show()
     }*/
 
-    /*private fun getData() {
+    private fun getData() {
         CoroutineScope(Dispatchers.IO).launch {
             AppDatabase.getInstance(this@MainActivity).appDao.getAllNote()
                 .also { data = it as ArrayList }
@@ -121,7 +121,7 @@ class MainActivity : AppCompatActivity(), OnClickNote {
                 adapter.setData(data as ArrayList<NoteEntity>)
             }
         }
-    }*/
+    }
 
     /*private fun showDetail(noteEntity: NoteEntity){
 
@@ -261,25 +261,6 @@ class MainActivity : AppCompatActivity(), OnClickNote {
 
     override fun onNoteClick(noteEntity: NoteEntity) {
 
-        /*val intent = Intent(this, DetailsActivity::class.java).apply {
-
-            val edtTitle = findViewById<EditText>(R.id.edtTitleDetail)
-            val edtContent = findViewById<EditText>(R.id.edtContentDetail)
-            edtTitle.setText(noteEntity.title)
-            edtContent.setText(noteEntity.content)
-
-            CoroutineScope(Dispatchers.IO).launch { //IO là tên luồng
-                AppDatabase.getInstance(this@MainActivity).appDao.addNote(
-                    NoteEntity(
-                        noteEntity.id,
-                        edtTitle.text.toString(),
-                        edtContent.text.toString(),
-                        DateUtils.getDate()
-                    )
-                )
-            }
-        }
-        startActivity(intent)*/
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra("note_data", noteEntity)
         }

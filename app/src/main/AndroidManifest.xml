@@ -19,7 +19,7 @@
             android:name=".activities.TestActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.DetailsActivity"
+            android:name=".activities.NewNoteActivity"
             android:exported="false" />
         <activity
             android:name=".activities.MainActivity"
